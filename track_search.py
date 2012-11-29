@@ -1,14 +1,13 @@
-import urllib2
-from BeautifulSoup import BeautifulSoup
+import re
+from mechanize import Browser
 
-print "<<<----Searching through the soup to find new tracks---->>>"
+br = Browser()
+br.open("http://www.freshnewtracks.com")
 
-i = 1
-# Fetch and parse the data
-url = 'http://freshnewtracks.com/index.php'
-data = urllib2.urlopen(url).read()
-soup = BeautifulSoup(data)
+# ...
 
-for anchor in soup.findAll('a', title=True):
-    print "#" +  str(i) + ":" + " Song: " + anchor['title']
-    i = i + 1
+# .links() optionally accepts the keyword args of .follow_/.find_link()
+for link in br.links():
+    print link
+    br.follow_link(link)  # takes EITHER Link instance OR keyword args
+    br.back()
